@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Resultado</title>
+</head>
+<body>
+    <h1>Resultado da Análise</h1>
+    <p><strong>Total de palavras:</strong> {{ analysis.word_count }}</p>
+    <p><strong>Palavras únicas:</strong> {{ analysis.unique_words }}</p>
+    <p><strong>Erros de gramática encontrados:</strong> {{ analysis.error_count }}</p>
+    <ul>
+        {% for erro in analysis.errors %}
+        <li>{{ erro }}</li>
+        {% endfor %}
+    </ul>
+    <h2>Texto sem acentos (prévia):</h2>
+    <p>{{ analysis.unaccented_preview }}</p>
+</body>
+</html>

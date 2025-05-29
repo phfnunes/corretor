@@ -1,19 +1,70 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-    <title>Resultado</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultado da Análise</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .error-list {
+            background-color: #f8f8f8;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .text-preview {
+            white-space: pre-wrap;
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-left: 3px solid #ccc;
+        }
+        .btn {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
     <h1>Resultado da Análise</h1>
-    <p><strong>Total de palavras:</strong> {{ analysis.word_count }}</p>
-    <p><strong>Palavras únicas:</strong> {{ analysis.unique_words }}</p>
-    <p><strong>Erros de gramática encontrados:</strong> {{ analysis.error_count }}</p>
-    <ul>
-        {% for erro in analysis.errors %}
-        <li>{{ erro }}</li>
-        {% endfor %}
-    </ul>
-    <h2>Texto sem acentos (prévia):</h2>
-    <p>{{ analysis.unaccented_preview }}</p>
+    
+    {% if analysis %}
+        <div class="results">
+            <p><strong>Total de palavras:</strong> {{ analysis.word_count }}</p>
+            <p><strong>Palavras únicas:</strong> {{ analysis.unique_words }}</p>
+            <p><strong>Erros de gramática encontrados:</strong> {{ analysis.error_count }}</p>
+            
+            {% if analysis.error_count > 0 %}
+            <h2>Principais erros:</h2>
+            <div class="error-list">
+                <ul>
+                    {% for erro in analysis.errors %}
+                    <li>{{ erro|e }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+            
+            <h2>Prévia do texto sem acentos:</h2>
+            <div class="text-preview">
+                {{ analysis.unaccented_preview|replace('\n', '<br>')|safe }}
+            </div>
+        </div>
+    {% else %}
+        <div class="error">
+            <p>Nenhum resultado de análise disponível.</p>
+        </div>
+    {% endif %}
+    
+    <a href="/" class="btn">Analisar outro arquivo</a>
 </body>
 </html>

@@ -4,3 +4,4 @@ python-docx
 beautifulsoup4
 language-tool-python
 unidecode
+gunicorn
